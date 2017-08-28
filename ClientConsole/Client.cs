@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Text;
 
-namespace Client
+namespace ClientConsole
 {
     class Client
     {
@@ -10,7 +10,7 @@ namespace Client
         private string Lastname;
         private string IP;
 
-        Client(string firstname, string lastname)
+        public Client(string firstname, string lastname)
         {
             Firstname = firstname;
             Lastname = lastname;

@@ -6,14 +6,15 @@ namespace ClientConsole
 {
     class Client
     {
-        private string Firstname;
-        private string Lastname;
-        private string IP;
+        public string Username;
+        public string Password;
+        public string IP;
 
-        public Client(string firstname, string lastname)
+        public Client(string username, string password)
         {
-            Firstname = firstname;
-            Lastname = lastname;
+            Username = username;
+            Password = password;
+            IP = Program.GetLocalIPAddress();
         }
     }
 }

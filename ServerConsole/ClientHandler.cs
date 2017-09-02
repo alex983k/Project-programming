@@ -24,7 +24,14 @@ namespace ServerConsole
             StreamReader reader = new StreamReader(stream);
             StreamWriter writer = new StreamWriter(stream);
             writer.AutoFlush = true;
-            Console.WriteLine(reader.ReadLine());
+            string[] text = reader.ReadLine().Split(';');
+            Client c = new Client();
+            c.Username = text[0];
+            c.Password = text[1];
+            c.IP = text[2];
+            while(true)
+            writer.Write(Logic.CheckClient(c).ToString());
+
         }
     }
 }

@@ -23,6 +23,10 @@ namespace ServerConsole
                 Thread m = new Thread(new ThreadStart(c.Comunication));
                 m.Start();
             }
+
+
+
+            #region StartAucion
             //static public void StartAuction(Item b)
             //{
             //    TimeSpan basetime = TimeSpan.FromMinutes(1);
@@ -45,6 +49,7 @@ namespace ServerConsole
             //            b = Logic.UpdatePrice(b, price);
             //            basetime = basetime + TimeSpan.FromSeconds(10);
             //}
+            #endregion
         }
     }
 }

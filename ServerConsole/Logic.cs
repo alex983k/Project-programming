@@ -4,8 +4,11 @@ using System.Text;
 
 namespace ServerConsole
 {
+
     public class Logic
     {
+        static string[,] UserList = new string[3, 2] { { "user", "pass" }, { "one", "two" },
+                                        { "admin", "admin" } };
         static public string CheckPrice(Item i, int price)
         {
             if (price < i.Current_Price)
@@ -23,6 +26,16 @@ namespace ServerConsole
         {
             i.Current_Price = price;
             return i;
+        }
+        static public bool CheckClient(Client c)
+        {
+            bool check= false;
+            for (int i=0; i<3; i++)
+            {
+                if ((c.Username == UserList[i, 0]) && (c.Password == UserList[i, 1]))
+                    check = true;
+            }
+            return check;
         }
     }
 }

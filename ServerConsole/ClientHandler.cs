@@ -29,6 +29,7 @@ namespace ServerConsole
             c.Username = text[0];
             c.Password = text[1];
             c.IP = text[2];
+            Console.WriteLine(Logic.CheckClient(c));
             while(true)
             writer.Write(Logic.CheckClient(c).ToString());
 

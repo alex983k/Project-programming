@@ -11,39 +11,40 @@ namespace ClientConsole
 {
     class Program
     {
+        static Auction s;
         static Client c;
+        static string data;
         static void Main(string[] args)
         {
-            LoginUser();
-            if (CheckConnection() == true)
-                Console.WriteLine("Connecting");
-            else
-                Console.WriteLine("Check internet connection.");
-            TcpClient server = new TcpClient("localhost", 11000);
-            NetworkStream stream = server.GetStream();
-            StreamReader reader = new StreamReader(stream);
-            StreamWriter writer = new StreamWriter(stream);
-            writer.AutoFlush = true;
-            writer.WriteLine(c.Username + ";" + c.Password + ";" + c.IP);
-            while (true)
-            {
-                Console.WriteLine(reader.Read());
-                break;
-            }
+            Console.WriteLine("Hello!");
+            CheckConnection();
+            Exit();
+
+
+            #region Old connection inside the main method
+            //TcpClient server = new TcpClient("localhost", 11000);
+            //NetworkStream stream = server.GetStream();
+            //StreamReader reader = new StreamReader(stream);
+            //StreamWriter writer = new StreamWriter(stream);
+            //writer.AutoFlush = true;
+            //writer.WriteLine(c.Username + ";" + c.Password + ";" + c.IP);
+            //while (true)
+            //{
+            //    Console.WriteLine(reader.Read());
+            //    break;
+            //}
+            #endregion
 
             Console.ReadKey();
 
         }
-        static public void SendBid(string firstname, string lastname, int price)
+        static public void SendBid()
         {
-            // Send bid
-            // Check the last price with the last sent one
-            // 
-            //
-            //
-            //
-            //
-            //
+            StreamWriter writer = new StreamWriter(s.Stream);
+            Console.WriteLine("Please insert price:");
+            string price = Console.ReadLine();
+            s.Writer.Write(price);
+
         }
         static public void ReceiveStatus()
         {
@@ -68,9 +69,27 @@ namespace ClientConsole
             }
             throw new Exception("Local IP Address Not Found!");
         }
-        public static bool CheckConnection()
+        public static void CheckConnection()
         {
-            return System.Net.NetworkInformation.NetworkInterface.GetIsNetworkAvailable();
+            bool conn = System.Net.NetworkInformation.NetworkInterface.GetIsNetworkAvailable();
+            if (conn == true)
+            {
+                Console.WriteLine("Connecting");
+                LoginUser();
+            }
+            else
+            {
+                Console.WriteLine("Check internet connection. Type /exit/ or /again/. ");
+                string text = Console.ReadLine();
+                if (text == "exit")
+                    Exit();
+                else
+                    CheckConnection();
+            }
+        }
+        private static void Exit()
+        {
+            Console.WriteLine("Press any key to continue...");
         }
         public static Client LoginUser()
         {
@@ -79,8 +98,25 @@ namespace ClientConsole
             Console.WriteLine("Please insert password:");
             string password = Console.ReadLine();
             c = new Client(username, password);
+            data = c.Username + ";" + c.Password + ";" + c.IP;
             Console.Clear();
             return c;
+        }
+        public static void SendLogin()
+        {
+            s.Writer.Write(data);
+            bool k = false;
+            while (true)
+            {
+                string text = s.Reader.Read().ToString();
+                if (text == "true")
+                    SendBid();
+                else
+                {
+                    Console.WriteLine("Login failed, please insert the credentials again:");
+                    LoginUser();
+                }
+            }
         }
     }
 }

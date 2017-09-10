@@ -18,7 +18,6 @@ namespace ClientConsole
         {
             Console.WriteLine("Hello!");
             CheckConnection();
-            Exit();
 
 
             #region Old connection inside the main method
@@ -38,14 +37,31 @@ namespace ClientConsole
             Console.ReadKey();
 
         }
-        static public void SendBid()
+        static public void CheckBidStatus()
         {
-            StreamWriter writer = new StreamWriter(s.Stream);
-            Console.WriteLine("Please insert price:");
-            string price = Console.ReadLine();
-            s.Writer.Write(price);
-
+            Console.WriteLine("Please wait untill a new bid starts.");
+            string text = s.Reader.ReadLine();
+            do
+            {
+                text = s.Reader.ReadLine();
+            } while ((text != "open") && (text != "close"));
+            if (text == "open")
+            {
+                Console.WriteLine("Bid found.");
+                StartBid();
+            }
+            else
+            {
+                Console.WriteLine("There are no more items for sell!");
+                Exit();
+            }
         }
+
+        private static void StartBid()
+        {
+            throw new NotImplementedException();
+        }
+
         static public void ReceiveStatus()
         {
             // Send bid
@@ -91,7 +107,7 @@ namespace ClientConsole
         {
             Console.WriteLine("Press any key to continue...");
         }
-        public static Client LoginUser()
+        public static void LoginUser()
         {
             Console.WriteLine("Please insert username:");
             string username = Console.ReadLine();
@@ -100,23 +116,31 @@ namespace ClientConsole
             c = new Client(username, password);
             data = c.Username + ";" + c.Password + ";" + c.IP;
             Console.Clear();
-            return c;
+            SendLogin();
         }
         public static void SendLogin()
         {
+            string text;
             s.Writer.Write(data);
-            bool k = false;
-            while (true)
+            do
             {
-                string text = s.Reader.Read().ToString();
-                if (text == "true")
-                    SendBid();
-                else
-                {
-                    Console.WriteLine("Login failed, please insert the credentials again:");
-                    LoginUser();
-                }
+                text = s.Reader.ReadLine();
+            } while ((text != "true") && (text != "false"));
+            if (text == "true")
+            {
+                CheckBidStatus();
             }
+            else
+            {
+                Console.WriteLine("Wrong credentials, try again.");
+                Console.WriteLine("Do you want to try again? Answer with /yes/ or /no/.");
+                string msg = Console.ReadLine();
+                if (msg == "yes")
+                    LoginUser();
+                else
+                    Exit();
+            }
+
         }
     }
 }

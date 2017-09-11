@@ -22,6 +22,7 @@ namespace ServerConsole
                 return "Bid added.";
             }
         }
+
         static public Item UpdatePrice(Item i, int price)
         {
             i.Current_Price = price;

@@ -31,28 +31,13 @@ namespace ClientConsole
             if (text == "open")
             {
                 Console.WriteLine("Bid found.");
-                StartBid();
+                //StartBid();
             }
             else
             {
                 Console.WriteLine("There are no more items for sell!");
                 Exit();
             }
-        }
-        private static void StartBid()
-        {
-            throw new NotImplementedException();
-        }
-        static public void ReceiveStatus()
-        {
-            // Send bid
-            // Check the last price with the last sent one
-            // 
-            //
-            //
-            //
-            //
-            //
         }
         public static string GetLocalIPAddress()
         {
@@ -96,14 +81,28 @@ namespace ClientConsole
             string password = Console.ReadLine();
             Client c = new Client(username, password);
             string data = c.Username + ";" + c.Password + ";" + c.IP;
-            //Console.Clear();
+            Console.Clear();
             return data;
         }
         public static void SendLogin(string data)
         {
             s.Writer.AutoFlush = true;
             s.Writer.WriteLine(data);
-            Console.WriteLine(s.Reader.ReadLine());
+            string result =s.Reader.ReadLine();
+            if (result=="True")
+            {
+                Console.WriteLine("Connected succesfully!");
+                CheckBidStatus();
+            }
+            else
+            {
+                Console.WriteLine("Not connected. Try again? y/n ");
+                string answer = Console.ReadLine();
+                if (answer == "y")
+                    LoginUser();
+                else
+                    Exit();
+            }
         }
     }
 }

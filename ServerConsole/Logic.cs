@@ -9,24 +9,24 @@ namespace ServerConsole
     {
         static string[,] UserList = new string[3, 2] { { "user", "pass" }, { "one", "two" },
                                         { "admin", "admin" } };
-        static public string CheckPrice(Item i, int price)
-        {
-            if (price < i.Current_Price)
-                return "Input smaller than the actual price.";
-            else
-                if (price == i.Current_Price)
-                return "Input is equal with the actual price.";
-            else
-            {
-                UpdatePrice(i, price);
-                return "Bid added.";
-            }
-        }
+        //static public string CheckPrice(Item i, int price)
+        //{
+        //    if (price < i.Current_Price)
+        //        return "Input smaller than the actual price.";
+        //    else
+        //        if (price == i.Current_Price)
+        //        return "Input is equal with the actual price.";
+        //    else
+        //    {
+        //        UpdatePrice(i, price);
+        //        return "Bid added.";
+        //    }
+        //}
 
-        static public Item UpdatePrice(Item i, int price)
+        static public Bidding UpdatePrice(Item i, Client c)
         {
-            i.Current_Price = price;
-            return i;
+            Bidding b = new Bidding(i.Name, i.Price, c.Username, c.IP);
+            return b;
         }
         static public bool CheckClient(Client c)
         {

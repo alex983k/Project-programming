@@ -42,6 +42,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Bidding.cs" />
     <Compile Include="Client.cs" />
     <Compile Include="ClientHandler.cs" />
     <Compile Include="Item.cs" />

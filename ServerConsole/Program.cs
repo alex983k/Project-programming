@@ -16,25 +16,19 @@ namespace ServerConsole
         {
             TcpListener server = new TcpListener(IPAddress.Any, 11000);
             server.Start();
-            bool acceptUsers = true;
             Socket client;
             ClientHandler c;
 
-            while (acceptUsers)
+            while (true)
             {
                 client = server.AcceptSocket();
                 c = new ClientHandler(client);
-                Thread m = new Thread(new ThreadStart(c.Comunication));
+                Thread m = new Thread(new ThreadStart(c.System));
                 m.Start();
-                Thread a = new Thread(new ThreadStart(c.Auction));
-                a.Start(c);
+
             }
-            List<Item> list = Item.Example();
         }
 
-        public void Auction()
-        {
 
-        }
     }
 }

@@ -4,13 +4,14 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Net.Sockets;
+using System.Net;
 using System.IO;
 
 namespace ServerConsole
 {
     class ClientHandler
     {
-        private Socket Socket;
+        public Socket Socket;
         private NetworkStream Stream;
         public StreamWriter Writer;
         public StreamReader Reader;
@@ -23,6 +24,11 @@ namespace ServerConsole
             Reader = new StreamReader(Stream);
         }
 
+        public void System()
+        {
+            Comunication();
+            Auction();
+        }
         public void Comunication()
         {
             Console.WriteLine("READY");

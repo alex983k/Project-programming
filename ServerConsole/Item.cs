@@ -9,16 +9,12 @@ namespace ServerConsole
     public class Item
     {
         public string Name;
-        public int Starting_Price;
-        public int Current_Price;
-        public string Bidder_Name;
+        public int Price;
 
         public Item(string name, int sp)
         {
             Name = name;
-            Starting_Price = sp;
-            Current_Price = sp;
-            Bidder_Name = "Auction House";
+            Price = sp;
         }
         static public List<Item> Example()
         {
